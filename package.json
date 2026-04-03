@@ -1,0 +1,11 @@
+{
+  "name": "mevyn-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "echo \"Add your frontend dev command here\"",
+    "build": "echo \"Add your frontend build command here\"",
+    "start": "echo \"Add your frontend start command here\""
+  }
+}
