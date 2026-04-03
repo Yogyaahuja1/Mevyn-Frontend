@@ -1,0 +1,20 @@
+[
+  {
+    "slug": "explainer-series",
+    "title": "Explainer Series",
+    "description": "In-depth explanations of complex topics, broken down for everyone.",
+    "order": 1
+  },
+  {
+    "slug": "campus-chronicles",
+    "title": "Campus Chronicles",
+    "description": "Stories, events, and experiences from campus life.",
+    "order": 2
+  },
+  {
+    "slug": "opinion-pieces",
+    "title": "Opinion Pieces",
+    "description": "Perspectives and commentary from our editorial team.",
+    "order": 3
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "members": [
+    {
+      "id": "1",
+      "name": "Member Name",
+      "designation": "Editor-in-Chief",
+      "photo": "/team/placeholder-avatar.svg",
+      "linkedin": "https://www.linkedin.com/in/",
+      "order": 1
+    },
+    {
+      "id": "2",
+      "name": "Member Name",
+      "designation": "Senior Editor",
+      "photo": "/team/placeholder-avatar.svg",
+      "linkedin": "https://www.linkedin.com/in/",
+      "order": 2
+    },
+    {
+      "id": "3",
+      "name": "Member Name",
+      "designation": "Content Writer",
+      "photo": "/team/placeholder-avatar.svg",
+      "linkedin": "https://www.linkedin.com/in/",
+      "order": 3
+    },
+    {
+      "id": "4",
+      "name": "Member Name",
+      "designation": "Photographer",
+      "photo": "/team/placeholder-avatar.svg",
+      "linkedin": "https://www.linkedin.com/in/",
+      "order": 4
+    }
+  ]
+}
