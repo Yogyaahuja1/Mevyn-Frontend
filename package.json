@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "echo \"Add your frontend dev command here\"",
-    "build": "echo \"Add your frontend build command here\"",
-    "start": "echo \"Add your frontend start command here\""
+    "dev": "npm --prefix mevyn-website run dev",
+    "build": "npm --prefix mevyn-website run build",
+    "preview": "npm --prefix mevyn-website run preview",
+    "start": "npm run dev"
   }
 }
