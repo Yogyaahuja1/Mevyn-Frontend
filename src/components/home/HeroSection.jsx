@@ -109,7 +109,7 @@ function PhotoCarousel({ photos, interval }) {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            opacity: i === current ? 0.8 : 0,
+            opacity: i === current ? 1.0 : 0,
             transition: 'opacity 1.2s ease-in-out',
           }}
         />
