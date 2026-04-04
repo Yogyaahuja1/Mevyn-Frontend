@@ -10,7 +10,8 @@
       "Bash(find D:/VSCode/Mevyn-Frontend/src -name *.jsx -o -name *.js -o -name *.ts -o -name *.tsx)",
       "Bash(node -e \"const l = require\\(''lucide-react''\\); const names = Object.keys\\(l\\).filter\\(k => k.toLowerCase\\(\\).includes\\(''linked''\\)\\); console.log\\(names\\);\")",
       "Bash(node -e \"import\\(''lucide-react''\\).then\\(l => { const names = Object.keys\\(l\\).filter\\(k => k.toLowerCase\\(\\).includes\\(''linked''\\)\\); console.log\\(names\\); }\\)\")",
-      "Bash(grep -i \"linked\\\\|linkedin\" D:/VSCode/Mevyn-Frontend/node_modules/lucide-react/dist/esm/icons/*.js)"
+      "Bash(grep -i \"linked\\\\|linkedin\" D:/VSCode/Mevyn-Frontend/node_modules/lucide-react/dist/esm/icons/*.js)",
+      "mcp__Claude_Preview__preview_start"
     ]
   }
 }

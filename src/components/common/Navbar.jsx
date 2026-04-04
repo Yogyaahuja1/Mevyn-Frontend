@@ -32,56 +32,62 @@ export default function Navbar() {
   const { isAuthenticated } = useAuth();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-primary-200 dark:border-dark-border bg-white/80 dark:bg-dark-bg/80 backdrop-blur-md">
-      <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link to={ROUTES.HOME} className="flex-shrink-0" aria-label="Mevyn home">
-          <img src="/mevyn-logo.svg" alt="Mevyn" className="h-8" />
-        </Link>
+    <>
+      <header className="sticky top-0 z-40 border-b border-primary-200 dark:border-dark-border bg-white/80 dark:bg-dark-bg/80 backdrop-blur-md">
+        <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
+          {/* Logo */}
+          <Link to={ROUTES.HOME} className="flex-shrink-0" aria-label="Mevyn home">
+            <img src="/mevyn-logo.svg" alt="Mevyn" className="h-8" />
+          </Link>
 
-        {/* Desktop nav links */}
-        <div className="hidden md:flex items-center gap-1">
-          <NavLink to={ROUTES.BLOGS} className={linkClass}>Blogs</NavLink>
-          <SeriesDropdown />
-          <NavLink to={ROUTES.ABOUT} className={linkClass}>About Us</NavLink>
-        </div>
+          {/* Desktop nav links */}
+          <div className="hidden md:flex items-center gap-1">
+            <NavLink to={ROUTES.BLOGS} className={linkClass}>Blogs</NavLink>
+            <SeriesDropdown />
+            <NavLink to={ROUTES.ABOUT} className={linkClass}>About Us</NavLink>
+          </div>
 
-        {/* Desktop right section */}
-        <div className="hidden md:flex items-center gap-2">
-          <ThemeToggle />
-          {isAuthenticated ? (
-            <Link
-              to={ROUTES.ADMIN}
-              className="inline-flex items-center gap-1.5 text-sm text-primary-500 hover:text-primary-700 dark:text-dark-muted dark:hover:text-dark-text px-3 py-2 rounded-lg transition-colors"
+          {/* Desktop right section */}
+          <div className="hidden md:flex items-center gap-2">
+            <ThemeToggle />
+            {isAuthenticated ? (
+              <Link
+                to={ROUTES.ADMIN}
+                className="inline-flex items-center gap-1.5 text-sm text-primary-500 hover:text-primary-700 dark:text-dark-muted dark:hover:text-dark-text px-3 py-2 rounded-lg transition-colors"
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                Dashboard
+              </Link>
+            ) : (
+              <Link
+                to={ROUTES.LOGIN}
+                className="inline-flex items-center gap-1.5 text-sm text-primary-500 hover:text-primary-700 dark:text-dark-muted dark:hover:text-dark-text px-3 py-2 rounded-lg transition-colors"
+              >
+                <LogIn className="h-4 w-4" />
+                Login
+              </Link>
+            )}
+          </div>
+
+          {/* Mobile right section */}
+          <div className="flex md:hidden items-center gap-1">
+            <ThemeToggle />
+            <button
+              onClick={() => setMobileOpen(true)}
+              className="p-2 rounded-lg text-primary-600 dark:text-dark-muted min-h-[44px] min-w-[44px] flex items-center justify-center"
+              aria-label="Open menu"
             >
-              <LayoutDashboard className="h-4 w-4" />
-              Dashboard
-            </Link>
-          ) : (
-            <Link
-              to={ROUTES.LOGIN}
-              className="inline-flex items-center gap-1.5 text-sm text-primary-500 hover:text-primary-700 dark:text-dark-muted dark:hover:text-dark-text px-3 py-2 rounded-lg transition-colors"
-            >
-              <LogIn className="h-4 w-4" />
-              Login
-            </Link>
-          )}
-        </div>
+              <Menu className="h-6 w-6" />
+            </button>
+          </div>
+        </nav>
+      </header>
 
-        {/* Mobile right section */}
-        <div className="flex md:hidden items-center gap-1">
-          <ThemeToggle />
-          <button
-            onClick={() => setMobileOpen(true)}
-            className="p-2 rounded-lg text-primary-600 dark:text-dark-muted min-h-[44px] min-w-[44px] flex items-center justify-center"
-            aria-label="Open menu"
-          >
-            <Menu className="h-6 w-6" />
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile slide-out drawer */}
+      {/*
+       * Mobile slide-out drawer — rendered OUTSIDE <header> so that
+       * backdrop-blur-md doesn't create a containing block that traps
+       * the fixed-position drawer inside the 64px header height.
+       */}
       {mobileOpen && (
         <>
           {/* Backdrop */}
@@ -129,6 +135,6 @@ export default function Navbar() {
           </div>
         </>
       )}
-    </header>
+    </>
   );
 }
