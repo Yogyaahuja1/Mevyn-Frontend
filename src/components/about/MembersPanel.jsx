@@ -1,11 +1,11 @@
 /**
- * MembersPanel — Chief Editor banners + team members grouped by department.
+ * MembersPanel - Chief Editor banners + team members grouped by department.
  *
  * Structure:
  *   1. Section header ("The People Behind It" / "Our Team")
  *   2. Two Chief Editor banners (alternating photo left/right)
- *      - Large photo + name + "Their Thoughts" quote
- *   3. Team sections — one row per department with team name header
+ *      - Large photo + name + title
+ *   3. Team sections - one row per department with team name header
  *      - Each team shows its members in a responsive grid
  *
  * Data source: src/data/team.json
@@ -44,7 +44,7 @@ export default function MembersPanel() {
         </div>
       )}
 
-      {/* Team sections — grouped by department */}
+      {/* Team sections - grouped by department */}
       {teams && teams.map((team) => (
         <div key={team.name} style={{ marginBottom: 56 }}>
           {/* Team name header */}
@@ -63,7 +63,7 @@ export default function MembersPanel() {
             </span>
           </div>
 
-          {/* Members grid — responsive */}
+          {/* Members grid - responsive */}
           <div
             style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, 200px)', gap: 16 }}
           >
@@ -78,7 +78,7 @@ export default function MembersPanel() {
 }
 
 /**
- * Chief Editor banner — large hero-style card with photo, name, and quote.
+ * Chief Editor banner - large hero-style card with photo, name, and title.
  *
  * @param {object} props
  * @param {object} props.editor - { id, name, photo, linkedin, quote }
@@ -101,7 +101,7 @@ function ChiefEditorBanner({ editor, reversed }) {
       onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-accent)'; }}
       onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; }}
     >
-      {/* Photo side — 16:9 landscape, flush to card edge */}
+      {/* Photo side - 16:9 landscape, flush to card edge */}
       <div style={{ order: reversed ? 2 : 1, overflow: 'hidden', display: 'flex', alignItems: 'center', background: 'var(--bg3)' }}>
         <img
           src={editor.photo || PLACEHOLDER}
@@ -125,54 +125,28 @@ function ChiefEditorBanner({ editor, reversed }) {
         justifyContent: 'center',
         padding: '28px 32px',
       }}>
-        <div style={{
-          fontSize: '10px',
-          fontWeight: 600,
-          letterSpacing: '0.16em',
-          textTransform: 'uppercase',
-          color: 'var(--accent)',
-          marginBottom: 12,
-        }}>
-          Chief Editor
-        </div>
-
         <h3 style={{
           fontFamily: 'var(--serif)',
           fontSize: 'clamp(1.2rem, 2vw, 1.6rem)',
           fontWeight: 700,
           lineHeight: 1.15,
           color: 'var(--text)',
-          marginBottom: 20,
+          marginBottom: 12,
         }}>
           {editor.name}
         </h3>
 
-        {/* Their Thoughts */}
         <div style={{
           fontSize: '10px',
           fontWeight: 600,
-          letterSpacing: '0.14em',
+          letterSpacing: '0.16em',
           textTransform: 'uppercase',
-          color: 'var(--text-dim)',
-          marginBottom: 10,
+          color: 'var(--accent)',
         }}>
-          Their Thoughts
+          Chief Editor
         </div>
 
-        <blockquote style={{
-          fontFamily: 'var(--serif)',
-          fontSize: '0.9rem',
-          fontStyle: 'italic',
-          lineHeight: 1.7,
-          color: 'var(--text-muted)',
-          borderLeft: '2px solid var(--accent)',
-          paddingLeft: 16,
-          margin: 0,
-        }}>
-          &ldquo;{editor.quote}&rdquo;
-        </blockquote>
-
-        {/* LinkedIn icon — hidden when URL is empty */}
+        {/* LinkedIn icon - hidden when URL is empty */}
         <a
           href={editor.linkedin || '#'}
           target="_blank"

@@ -25,10 +25,10 @@ export default function AboutPage() {
             About<br /><em style={{ color: 'var(--accent)', fontStyle: 'italic' }}>MEVYN</em>
           </h1>
           <p style={{ color: 'var(--text-muted)', marginTop: 20, maxWidth: 580, lineHeight: 1.8, fontSize: '1.05rem' }}>
-            MEVYN is the official media body of IIT Dharwad — a student-run organization that documents campus life, amplifies student voices, and covers the stories that shape our community.
+            Mevyn is a vibrant community of curious minds driven to inform, engage and represent. We bring student stories, achievements, opinions into the spotlight while maintaining an honest and balanced narrative of campus life at IIT Dharwad.
           </p>
           <p style={{ color: 'var(--text-muted)', marginTop: 16, maxWidth: 580, lineHeight: 1.8 }}>
-            From academic milestones to cultural celebrations, we bring IIT Dharwad&apos;s narrative to life through six distinct series and dedicated editorial coverage.
+            By bridging the gap between students and authorities, Mevyn ensures that opinions, concerns, and ideas are effectively communicated, fostering transparency, dialogue, and a more connected campus environment.
           </p>
 
           {/* Stats */}
