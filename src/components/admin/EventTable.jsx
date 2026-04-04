@@ -58,12 +58,12 @@ export default function EventTable({ events, onDelete, onRestore }) {
 
                 {/* Location */}
                 <td className="px-4 py-3 text-primary-600 dark:text-dark-muted">
-                  {event.location || '-'}
+                  {event.location?.name || '-'}
                 </td>
 
                 {/* Virtual */}
                 <td className="px-4 py-3">
-                  {event.isVirtual ? (
+                  {event.is_virtual ? (
                     <Badge variant="blue">Virtual</Badge>
                   ) : (
                     <span className="text-primary-400 dark:text-dark-muted">In-Person</span>

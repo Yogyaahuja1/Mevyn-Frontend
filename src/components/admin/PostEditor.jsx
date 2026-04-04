@@ -32,6 +32,7 @@ import {
   Link as LinkIcon,
   Image as ImageIcon,
   Video,
+  Code2,
   Undo,
   Redo,
 } from 'lucide-react';
@@ -97,8 +98,60 @@ function Toolbar({ editor }) {
     if (!url) return;
     const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?\s]+)/);
     if (!match) { alert('Invalid YouTube URL'); return; }
-    editor.chain().focus().insertContent(
+    insertRawEmbed(
       `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:1.5em 0;border-radius:8px"><iframe src="https://www.youtube-nocookie.com/embed/${match[1]}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe></div>`
+    );
+  };
+
+  /**
+   * Generic embed — accepts any raw HTML embed code (iframes, blockquotes,
+   * tweets, Instagram embeds, Google Forms, Spotify, etc.) or a plain URL.
+   */
+  const handleEmbed = () => {
+    const code = window.prompt(
+      'Paste embed code (iframe, blockquote, etc.) or a URL:\n\n' +
+      'Examples:\n' +
+      '• YouTube/Vimeo iframe\n' +
+      '• Twitter/X embed blockquote\n' +
+      '• Instagram embed code\n' +
+      '• Google Form iframe\n' +
+      '• Spotify embed iframe\n' +
+      '• Any raw HTML embed code'
+    );
+    if (!code || !code.trim()) return;
+
+    const trimmed = code.trim();
+
+    // Plain URL → wrap in responsive iframe
+    if (/^https?:\/\//.test(trimmed) && !trimmed.startsWith('<')) {
+      insertRawEmbed(
+        `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:1.5em 0;border-radius:8px"><iframe src="${trimmed}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allowfullscreen></iframe></div>`
+      );
+      return;
+    }
+
+    // HTML embed code → insert raw
+    insertRawEmbed(`<div style="margin:1.5em 0">${trimmed}</div>`);
+  };
+
+  /**
+   * Insert raw HTML that bypasses TipTap's schema sanitization.
+   *
+   * TipTap escapes unknown elements (iframes, divs with inline styles).
+   * This workaround gets the current HTML, appends the embed at the cursor
+   * position (approximated as end of content), and pushes it via onChange.
+   * The embed will render correctly in PostContent (dangerouslySetInnerHTML)
+   * even though it won't be visible in the TipTap WYSIWYG preview.
+   */
+  const insertRawEmbed = (html) => {
+    // Get current HTML and append the embed
+    const currentHtml = editor.getHTML();
+    const newHtml = currentHtml + html;
+    // Update the stored HTML via onChange (this goes to the save payload)
+    onChange(newHtml);
+    // Show a non-editable placeholder in the editor so the author knows something was inserted
+    editor.chain().focus().insertContent(
+      `<p><strong>[Embedded content]</strong> — will render on the published page</p>`
     ).run();
   };
 
@@ -236,6 +289,12 @@ function Toolbar({ editor }) {
         title="Embed YouTube Video"
       >
         <Video size={18} />
+      </ToolbarButton>
+      <ToolbarButton
+        onClick={handleEmbed}
+        title="Embed anything (iframe, tweet, Instagram, etc.)"
+      >
+        <Code2 size={18} />
       </ToolbarButton>
 
       <ToolbarDivider />

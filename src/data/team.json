@@ -48,7 +48,7 @@
     {
       "name": "Technical Team",
       "members": [
-        { "id": "t1", "name": "Yogya Ahuja", "designation": "Team Lead", "photo": "/team/placeholder-avatar.svg", "linkedin": "" },
+        { "id": "t1", "name": "Yogya Ahuja", "designation": "Team Lead", "photo": "/team/Yogya_Ahuja.jpg", "linkedin": "" },
         { "id": "t2", "name": "Affan P", "designation": "Developer", "photo": "/team/affan_p.jpg", "linkedin": "" }
       ]
     }
