@@ -172,10 +172,10 @@
   --accent-light: #60a5fa;
   --accent-dim: rgba(59, 130, 246, 0.15);
   --accent-dim2: rgba(59, 130, 246, 0.08);
-  --bg: #0a0a0a;
-  --bg2: #111111;
-  --bg3: #161616;
-  --bg4: #1c1c1c;
+  --bg: #000000;
+  --bg2: #0a0a0a;
+  --bg3: #111111;
+  --bg4: #161616;
   --border: rgba(255, 255, 255, 0.08);
   --border-accent: rgba(59, 130, 246, 0.3);
   --text: #f0ece4;
@@ -389,7 +389,7 @@ body::before {
   backdrop-filter: blur(12px);
 }
 .dark .site-nav.is-scrolled {
-  background: rgba(10, 10, 10, 0.94);
+  background: rgba(0, 0, 0, 0.94);
 }
 
 .nav-shell {
@@ -425,7 +425,7 @@ body::before {
   box-shadow: 0 8px 24px rgba(0,0,0,0.06);
 }
 .dark .desktop-nav {
-  background: rgba(14, 14, 14, 0.65);
+  background: rgba(0, 0, 0, 0.65);
   box-shadow: 0 8px 24px rgba(0,0,0,0.28);
 }
 
@@ -539,7 +539,7 @@ body::before {
   background: linear-gradient(180deg, rgba(250,251,252,0.58) 0%, rgba(250,251,252,0.84) 52%, var(--bg) 100%);
 }
 .dark .hero-overlay {
-  background: linear-gradient(180deg, rgba(8,8,8,0.58) 0%, rgba(8,8,8,0.84) 52%, var(--bg) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.84) 52%, var(--bg) 100%);
 }
 
 .hero-panel {
@@ -552,7 +552,7 @@ body::before {
   box-shadow: 0 16px 46px rgba(0,0,0,0.08);
 }
 .dark .hero-panel {
-  background: rgba(10, 10, 10, 0.72);
+  background: rgba(0, 0, 0, 0.72);
   border-color: rgba(255,255,255,0.12);
   box-shadow: 0 16px 46px rgba(0,0,0,0.35);
 }
