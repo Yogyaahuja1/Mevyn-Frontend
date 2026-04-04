@@ -2,16 +2,16 @@
   "chiefEditors": [
     {
       "id": "ce1",
-      "name": "Chief Editor Name",
-      "photo": "/team/aayushi.jpg",
-      "linkedin": "",
+      "name": "Aabha Devnikar",
+      "photo": "/team/aabha_devnikar.jpg",
+      "linkedin": "www.linkedin.com/in/aabha-devnikar-b336a027a",
       "quote": "Every campus has stories worth telling. Our job is to find them, verify them, and tell them right."
     },
     {
       "id": "ce2",
-      "name": "Chief Editor Name",
-      "photo": "/team/placeholder-avatar.svg",
-      "linkedin": "",
+      "name": "Aayushi Singh",
+      "photo": "/team/aayushi_singh.jpg",
+      "linkedin": "https://www.linkedin.com/in/aayushi-singh-426946331",
       "quote": "Mevyn isn't just a media body — it's a commitment to transparency, accountability, and the student voice."
     }
   ],
@@ -19,38 +19,37 @@
     {
       "name": "Content Team",
       "members": [
-        { "id": "c1", "name": "Kavichelvan K", "designation": "Team Lead", "photo": "/team/placeholder-avatar.svg", "linkedin": "" },
-        { "id": "c2", "name": "Member Name", "designation": "Editor", "photo": "/team/placeholder-avatar.svg", "linkedin": "" },
-        { "id": "c3", "name": "Member Name", "designation": "Writer", "photo": "/team/placeholder-avatar.svg", "linkedin": "" }
+        { "id": "c1", "name": "Kavichelvan K", "designation": "Team Lead", "photo": "/team/kavichelvan_k.jpeg", "linkedin": "https://www.linkedin.com/in/kavichelvan-k" },
+        { "id": "c2", "name": "Devendra Gurjar", "designation": "Member", "photo": "/team/devendra_gurjar.jpeg", "linkedin": "www.linkedin.com/in/ devendragurjar94" }
+      ]
+    },
+    {
+      "name": "Digital Media Team",
+      "members": [
+        { "id": "d1", "name": "Balamurali V B", "designation": "Team Lead", "photo": "/team/balamurli_v.jpg", "linkedin": "https://www.linkedin.com/in/balamurali-v-b-726103337" }
+      ]
+    },
+    {
+      "name": "Communication Team",
+      "members": [
+        { "id": "cm1", "name": "Suchitra Dabholkar", "designation": "Team Lead", "photo": "/team/suchitra_dabholkar.jpg", "linkedin": "https://www.linkedin.com/in/suchitra-dabholkar-164425368" },
+        { "id": "cm2", "name": "Tejas Sharma", "designation": "Member", "photo": "/team/tejas_sharma.jpg", "linkedin": "www.linkedin.com/in/tejas-sharma-0a5289379" }
+      ]
+    },
+    {
+      "name": "Technical Team",
+      "members": [
+        { "id": "t1", "name": "Yogya Ahuja", "designation": "Team Lead", "photo": "/team/yogya_ahuja.jpg", "linkedin": "https://www.linkedin.com/in/yogya-ahuja-8b4630348/" },
+        { "id": "t2", "name": "Affan P", "designation": "Developer", "photo": "/team/affan_p.jpg", "linkedin": "https://www.linkedin.com/in/affanp1399/" }
       ]
     },
     {
       "name": "Social Media Team",
       "members": [
         { "id": "s1", "name": "Himaja Desale", "designation": "Team Lead", "photo": "/team/placeholder-avatar.svg", "linkedin": "" },
-        { "id": "s2", "name": "Member Name", "designation": "Designer", "photo": "/team/placeholder-avatar.svg", "linkedin": "" }
-      ]
-    },
-    {
-      "name": "Digital Media Team",
-      "members": [
-        { "id": "d1", "name": "Balamurali V B", "designation": "Team Lead", "photo": "/team/placeholder-avatar.svg", "linkedin": "" },
-        { "id": "d2", "name": "Member Name", "designation": "Photographer", "photo": "/team/placeholder-avatar.svg", "linkedin": "" }
-      ]
-    },
-    {
-      "name": "Communication Team",
-      "members": [
-        { "id": "cm1", "name": "Suchitra Dabholkar", "designation": "Team Lead", "photo": "/team/placeholder-avatar.svg", "linkedin": "" },
-        { "id": "cm2", "name": "Member Name", "designation": "Reporter", "photo": "/team/placeholder-avatar.svg", "linkedin": "" }
-      ]
-    },
-    {
-      "name": "Technical Team",
-      "members": [
-        { "id": "t1", "name": "Yogya Ahuja", "designation": "Team Lead", "photo": "/team/Yogya_Ahuja.jpg", "linkedin": "" },
-        { "id": "t2", "name": "Affan P", "designation": "Developer", "photo": "/team/affan_p.jpg", "linkedin": "" }
+        { "id": "s2", "name": "Amitha Reddy Kota", "designation": "Member", "photo": "/team/amitha_reddy.jpg", "linkedin": "https://www.linkedin.com/in/amitha-reddy-kota-65a075378" }
       ]
     }
+
   ]
 }
