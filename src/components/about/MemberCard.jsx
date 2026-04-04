@@ -1,8 +1,11 @@
 /**
- * MemberCard - Displays a single team member's profile card.
+ * MemberCard - Editorial team member card with square photo.
  *
- * Shows a circular photo, name, designation, and a LinkedIn icon link.
+ * Shows a square photo, name, designation, and a text LinkedIn link.
  * Photo falls back to placeholder-avatar.svg when the image fails to load.
+ *
+ * Uses editorial CSS variables (--bg2, --border, --border-accent, --radius-lg,
+ * --serif, --text, --accent, --text-dim) for consistent styling.
  *
  * Used by: MembersPanel on the About page.
  *
@@ -14,16 +17,6 @@
  * @param {string} props.member.photo       - Path to photo (relative to public/)
  * @param {string} props.member.linkedin    - LinkedIn profile URL
  */
-import { cn } from '@/utils/cn';
-
-/** Inline LinkedIn SVG icon — lucide-react doesn't include brand icons */
-function LinkedinIcon({ className }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    </svg>
-  );
-}
 
 const PLACEHOLDER = '/team/placeholder-avatar.svg';
 
@@ -32,51 +25,74 @@ export default function MemberCard({ member }) {
 
   return (
     <div
-      className={cn(
-        'flex flex-col items-center gap-3 rounded-xl p-6 text-center',
-        'bg-white border border-primary-200 shadow-sm',
-        'dark:bg-dark-surface dark:border-dark-border',
-        'transition-shadow duration-200 hover:shadow-md'
-      )}
+      style={{
+        background: 'var(--bg2)',
+        borderRadius: 'var(--radius-lg)',
+        border: '1px solid var(--border)',
+        overflow: 'hidden',
+        transition: 'all 0.3s',
+        maxWidth: 200,
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = 'var(--border-accent)';
+        e.currentTarget.style.transform = 'translateY(-4px)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = 'var(--border)';
+        e.currentTarget.style.transform = 'none';
+      }}
     >
-      {/* Circular avatar */}
-      <img
-        src={photo || PLACEHOLDER}
-        alt={name}
-        onError={(e) => {
-          e.currentTarget.src = PLACEHOLDER;
-        }}
-        className="h-24 w-24 rounded-full object-cover bg-primary-100 dark:bg-dark-surface2"
-      />
+      {/* Photo — 1:1 square, card width matches image */}
+      <div style={{ aspectRatio: '1/1', overflow: 'hidden', maxHeight: 200 }}>
+        <img
+          src={photo || PLACEHOLDER}
+          alt={name}
+          onError={(e) => {
+            e.currentTarget.src = PLACEHOLDER;
+          }}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            filter: 'grayscale(20%)',
+            transition: 'all 0.4s',
+          }}
+        />
+      </div>
 
-      {/* Name */}
-      <h3 className="text-lg font-bold text-primary-800 dark:text-dark-text">
-        {name}
-      </h3>
-
-      {/* Designation */}
-      <p className="text-sm text-primary-500 dark:text-dark-muted">
-        {designation}
-      </p>
-
-      {/* LinkedIn link */}
-      {linkedin && (
-        <a
-          href={linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`${name} on LinkedIn`}
-          className={cn(
-            'inline-flex items-center justify-center rounded-lg p-2',
-            'text-secondary-600 hover:bg-secondary-50',
-            'dark:text-secondary-400 dark:hover:bg-dark-surface2',
-            'transition-colors duration-150',
-            'min-h-[44px] min-w-[44px]' // Touch-friendly target
-          )}
-        >
-          <LinkedinIcon className="h-5 w-5" />
-        </a>
-      )}
+      {/* Info */}
+      <div style={{ padding: '14px 16px 18px' }}>
+        <div style={{ fontFamily: 'var(--serif)', fontSize: '0.95rem', fontWeight: 600, marginBottom: 2, color: 'var(--text)' }}>
+          {name}
+        </div>
+        <div style={{ fontSize: '11px', color: 'var(--accent)', letterSpacing: '0.06em', fontWeight: 500, marginBottom: 6 }}>
+          {designation}
+        </div>
+        {linkedin && (
+          <a
+            href={linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${name} on LinkedIn`}
+            style={{
+              fontSize: '11px',
+              color: 'var(--text-dim)',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = 'var(--accent)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = 'var(--text-dim)';
+            }}
+          >
+            LinkedIn &rarr;
+          </a>
+        )}
+      </div>
     </div>
   );
 }

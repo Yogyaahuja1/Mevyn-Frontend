@@ -1,12 +1,8 @@
 /**
- * PostGrid - Responsive grid wrapper for PostCard components.
+ * PostGrid - Editorial responsive grid wrapper for PostCard components.
  *
- * Layout:
- *   - 1 column on mobile (< md)
- *   - 2 columns on md
- *   - 3 columns on lg and above
- *
- * Used by: BlogListingPage, HomePage featured section.
+ * Uses the .editorial-grid-3 CSS class for responsive column breakpoints
+ * (3 cols desktop, 2 cols tablet, 1 col mobile -- defined in index.css).
  *
  * @param {object} props
  * @param {object[]} props.posts - Array of post objects passed to PostCard
@@ -17,9 +13,16 @@ export default function PostGrid({ posts }) {
   if (!posts?.length) return null;
 
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {posts.map((post) => (
-        <PostCard key={post.uuid} post={post} />
+    <div
+      className="editorial-grid-3"
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: 24,
+      }}
+    >
+      {posts.map((p) => (
+        <PostCard key={p.uuid || p.slug} post={p} />
       ))}
     </div>
   );

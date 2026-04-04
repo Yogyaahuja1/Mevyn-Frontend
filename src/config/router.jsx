@@ -40,6 +40,7 @@ import HomePage from '@/pages/public/HomePage';
 import BlogListingPage from '@/pages/public/BlogListingPage';
 import BlogPostPage from '@/pages/public/BlogPostPage';
 import SeriesListingPage from '@/pages/public/SeriesListingPage';
+import SeriesDetailPage from '@/pages/public/SeriesDetailPage';
 import AboutPage from '@/pages/public/AboutPage';
 import LoginPage from '@/pages/public/LoginPage';
 
@@ -69,6 +70,7 @@ export const router = createBrowserRouter([
       { path: 'blogs', element: <BlogListingPage /> },
       { path: 'blogs/:slug', element: <BlogPostPage /> },
       { path: 'series', element: <SeriesListingPage /> },
+      { path: 'series/:slug', element: <SeriesDetailPage /> },
       { path: 'about', element: <AboutPage /> },
       { path: 'login', element: <LoginPage /> },
     ],

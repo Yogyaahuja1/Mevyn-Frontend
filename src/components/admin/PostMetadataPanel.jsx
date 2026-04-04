@@ -76,6 +76,26 @@ export default function PostMetadataPanel({ metadata, onChange }) {
         required
       />
 
+      {/* Cover Image URL */}
+      <Input
+        label="Cover Image URL"
+        name="cover_image"
+        type="url"
+        value={metadata.cover_image || ''}
+        onChange={(e) => onChange('cover_image', e.target.value)}
+        placeholder="https://example.com/image.jpg"
+      />
+      {metadata.cover_image && (
+        <div className="overflow-hidden rounded-lg border border-primary-200 dark:border-dark-border">
+          <img
+            src={metadata.cover_image}
+            alt="Cover preview"
+            className="w-full h-auto object-cover"
+            onError={(e) => { e.target.style.display = 'none'; }}
+          />
+        </div>
+      )}
+
       {/* Excerpt */}
       <div className="space-y-1">
         <label

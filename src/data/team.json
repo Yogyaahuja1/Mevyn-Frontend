@@ -1,36 +1,56 @@
 {
-  "members": [
+  "chiefEditors": [
     {
-      "id": "1",
-      "name": "Member Name",
-      "designation": "Editor-in-Chief",
-      "photo": "/team/placeholder-avatar.svg",
-      "linkedin": "https://www.linkedin.com/in/",
-      "order": 1
+      "id": "ce1",
+      "name": "Chief Editor Name",
+      "photo": "/team/aayushi.jpg",
+      "linkedin": "",
+      "quote": "Every campus has stories worth telling. Our job is to find them, verify them, and tell them right."
     },
     {
-      "id": "2",
-      "name": "Member Name",
-      "designation": "Senior Editor",
+      "id": "ce2",
+      "name": "Chief Editor Name",
       "photo": "/team/placeholder-avatar.svg",
-      "linkedin": "https://www.linkedin.com/in/",
-      "order": 2
+      "linkedin": "",
+      "quote": "Mevyn isn't just a media body — it's a commitment to transparency, accountability, and the student voice."
+    }
+  ],
+  "teams": [
+    {
+      "name": "Content Team",
+      "members": [
+        { "id": "c1", "name": "Kavichelvan K", "designation": "Team Lead", "photo": "/team/placeholder-avatar.svg", "linkedin": "" },
+        { "id": "c2", "name": "Member Name", "designation": "Editor", "photo": "/team/placeholder-avatar.svg", "linkedin": "" },
+        { "id": "c3", "name": "Member Name", "designation": "Writer", "photo": "/team/placeholder-avatar.svg", "linkedin": "" }
+      ]
     },
     {
-      "id": "3",
-      "name": "Member Name",
-      "designation": "Content Writer",
-      "photo": "/team/placeholder-avatar.svg",
-      "linkedin": "https://www.linkedin.com/in/",
-      "order": 3
+      "name": "Social Media Team",
+      "members": [
+        { "id": "s1", "name": "Himaja Desale", "designation": "Team Lead", "photo": "/team/placeholder-avatar.svg", "linkedin": "" },
+        { "id": "s2", "name": "Member Name", "designation": "Designer", "photo": "/team/placeholder-avatar.svg", "linkedin": "" }
+      ]
     },
     {
-      "id": "4",
-      "name": "Member Name",
-      "designation": "Photographer",
-      "photo": "/team/placeholder-avatar.svg",
-      "linkedin": "https://www.linkedin.com/in/",
-      "order": 4
+      "name": "Digital Media Team",
+      "members": [
+        { "id": "d1", "name": "Balamurali V B", "designation": "Team Lead", "photo": "/team/placeholder-avatar.svg", "linkedin": "" },
+        { "id": "d2", "name": "Member Name", "designation": "Photographer", "photo": "/team/placeholder-avatar.svg", "linkedin": "" }
+      ]
+    },
+    {
+      "name": "Communication Team",
+      "members": [
+        { "id": "cm1", "name": "Suchitra Dabholkar", "designation": "Team Lead", "photo": "/team/placeholder-avatar.svg", "linkedin": "" },
+        { "id": "cm2", "name": "Member Name", "designation": "Reporter", "photo": "/team/placeholder-avatar.svg", "linkedin": "" }
+      ]
+    },
+    {
+      "name": "Technical Team",
+      "members": [
+        { "id": "t1", "name": "Yogya Ahuja", "designation": "Team Lead", "photo": "/team/placeholder-avatar.svg", "linkedin": "" },
+        { "id": "t2", "name": "Affan P", "designation": "Developer", "photo": "/team/affan_p.jpg", "linkedin": "" }
+      ]
     }
   ]
 }

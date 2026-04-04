@@ -1,130 +1,151 @@
 /**
- * PostCard - Card component for blog listing grids.
+ * PostCard - Editorial card component for blog listing grids.
  *
- * Displays a color gradient placeholder (deterministic based on title hash),
- * post title (linked to /blogs/:slug), truncated excerpt, author name(s) or
- * "Mevyn Editorial Team" when anonymous, formatted published date, and tags.
- *
- * Used by: PostGrid on BlogListingPage, HomePage featured posts.
+ * Displays a deterministic gradient placeholder (based on title hash),
+ * series/tag pill, date, title, excerpt, "Read Story" CTA, and author.
+ * Uses editorial CSS classes (.card, .card-body, .card-img, etc.).
  *
  * @param {object} props
  * @param {object} props.post
- * @param {string} props.post.uuid
- * @param {string} props.post.title
- * @param {string} props.post.slug
- * @param {Array<{name: string}>} props.post.authors
- * @param {boolean} props.post.anonymous
- * @param {string} props.post.excerpt
- * @param {string[]} props.post.tags
- * @param {string} props.post.published_at
- * @param {string} props.post.status
+ * @param {'normal'|'large'} [props.size='normal']
  */
-import { Link } from 'react-router-dom';
-import Badge from '@/components/common/Badge';
+import { useNavigate } from 'react-router-dom';
+import { ANONYMOUS_AUTHOR } from '@/config/constants';
 import { formatDate } from '@/utils/formatDate';
 import { truncate } from '@/utils/truncate';
-import { cn } from '@/utils/cn';
-import { ANONYMOUS_AUTHOR } from '@/config/constants';
-import { ROUTES } from '@/config/routes';
 
 /**
- * Generate a deterministic gradient CSS string from a post title.
+ * Simple string hash for deterministic gradient generation.
+ * @param {string} str
+ * @returns {number}
+ */
+function hashString(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return hash;
+}
+
+/**
+ * Generate a deterministic CSS gradient from a post title.
  * Hashes the title into two hue values so each post gets a unique gradient.
- *
  * @param {string} title
  * @returns {string} CSS linear-gradient value
  */
-function titleGradient(title) {
-  let hash = 0;
-  for (let i = 0; i < title.length; i++) {
-    hash = title.charCodeAt(i) + ((hash << 5) - hash);
-    hash |= 0; // convert to 32-bit int
-  }
-  const hue1 = Math.abs(hash) % 360;
-  const hue2 = (hue1 + 40 + (Math.abs(hash >> 8) % 60)) % 360;
-  return `linear-gradient(135deg, hsl(${hue1}, 65%, 55%), hsl(${hue2}, 55%, 45%))`;
+function generateGradient(title) {
+  const hash = hashString(title || '');
+  const h1 = Math.abs(hash % 360);
+  const h2 = (h1 + 40) % 360;
+  return `linear-gradient(135deg, hsl(${h1}, 70%, 45%), hsl(${h2}, 60%, 35%))`;
 }
 
-export default function PostCard({ post }) {
-  const {
-    title,
-    slug,
-    authors,
-    anonymous,
-    excerpt,
-    tags,
-    published_at: publishedAt,
-  } = post;
-
-  const postUrl = ROUTES.BLOG_POST.replace(':slug', slug);
-  const authorLabel = anonymous
-    ? ANONYMOUS_AUTHOR
-    : authors?.map((a) => a.name).join(', ') || ANONYMOUS_AUTHOR;
+export default function PostCard({ post, size = 'normal' }) {
+  const navigate = useNavigate();
+  const authorName =
+    post.anonymous || !post.authors?.length
+      ? ANONYMOUS_AUTHOR
+      : post.authors.map((a) => a.name).join(', ');
 
   return (
-    <article
-      className={cn(
-        'group flex flex-col overflow-hidden rounded-xl border transition-shadow duration-200',
-        'border-primary-200 bg-white shadow-sm hover:shadow-md',
-        'dark:border-dark-border dark:bg-dark-surface hover:dark:shadow-lg'
-      )}
+    <div
+      className="card"
+      onClick={() => navigate(`/blogs/${post.slug}`)}
+      style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
     >
-      {/* Gradient placeholder for cover image */}
-      <Link to={postUrl} className="block" aria-hidden="true" tabIndex={-1}>
-        <div
-          className="h-40 sm:h-48 w-full"
-          style={{ background: titleGradient(title) }}
-        />
-      </Link>
+      {/* Cover image or gradient placeholder */}
+      <div
+        className="card-img"
+        style={{ aspectRatio: size === 'large' ? '16/7' : '16/9' }}
+      >
+        {post.cover_image ? (
+          <img
+            src={post.cover_image}
+            alt={post.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        ) : (
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              background: generateGradient(post.title),
+            }}
+          />
+        )}
+      </div>
 
-      {/* Content */}
-      <div className="flex flex-1 flex-col gap-3 p-4 sm:p-5">
+      <div
+        className="card-body"
+        style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
+      >
+        {/* Meta: pill + date */}
+        <div className="card-meta">
+          {post.series && (
+            <span className="pill" style={{ cursor: 'default' }}>
+              {post.series}
+            </span>
+          )}
+          {!post.series && post.tags?.[0] && (
+            <span className="pill" style={{ cursor: 'default' }}>
+              {post.tags[0]}
+            </span>
+          )}
+          <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>
+            {formatDate(post.published_at)}
+          </span>
+        </div>
+
         {/* Title */}
-        <h3 className="text-lg font-semibold leading-snug">
-          <Link
-            to={postUrl}
-            className={cn(
-              'text-primary-800 hover:text-secondary-600 transition-colors',
-              'dark:text-dark-text dark:hover:text-secondary-400'
-            )}
-          >
-            {title}
-          </Link>
+        <h3
+          className="card-title"
+          style={{ fontSize: size === 'large' ? '1.4rem' : '1.1rem' }}
+        >
+          {post.title}
         </h3>
 
         {/* Excerpt */}
-        {excerpt && (
-          <p className="text-sm leading-relaxed text-primary-500 dark:text-dark-muted">
-            {truncate(excerpt, 120)}
-          </p>
-        )}
+        <p className="card-excerpt" style={{ flex: 1 }}>
+          {truncate(post.excerpt, 120)}
+        </p>
 
-        {/* Tags */}
-        {tags?.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
-            {tags.map((tag) => (
-              <Badge key={tag} variant="blue">
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        )}
+        {/* Read CTA */}
+        <div
+          style={{
+            marginTop: 14,
+            fontSize: '11px',
+            letterSpacing: '0.09em',
+            textTransform: 'uppercase',
+            color: 'var(--accent)',
+            fontWeight: 600,
+          }}
+        >
+          Read Story &rarr;
+        </div>
 
-        {/* Meta footer: author + date */}
-        <div className="mt-auto flex items-center justify-between pt-3 border-t border-primary-100 dark:border-dark-border">
-          <span className="text-xs font-medium text-primary-600 dark:text-dark-muted truncate max-w-[60%]">
-            {authorLabel}
+        {/* Author */}
+        <div className="card-author">
+          <span
+            style={{
+              width: 20,
+              height: 20,
+              borderRadius: '50%',
+              background: 'var(--accent-dim)',
+              border: '1px solid var(--border-accent)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 10,
+              color: 'var(--accent)',
+              fontWeight: 600,
+              flexShrink: 0,
+            }}
+          >
+            {authorName[0]}
           </span>
-          {publishedAt && (
-            <time
-              dateTime={publishedAt}
-              className="text-xs text-primary-400 dark:text-dark-muted"
-            >
-              {formatDate(publishedAt)}
-            </time>
-          )}
+          {authorName}
         </div>
       </div>
-    </article>
+    </div>
   );
 }

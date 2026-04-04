@@ -31,6 +31,7 @@ import {
   AlignRight,
   Link as LinkIcon,
   Image as ImageIcon,
+  Video,
   Undo,
   Redo,
 } from 'lucide-react';
@@ -89,6 +90,16 @@ function Toolbar({ editor }) {
     if (url) {
       editor.chain().focus().setImage({ src: url }).run();
     }
+  };
+
+  const handleYoutube = () => {
+    const url = window.prompt('Enter YouTube URL:');
+    if (!url) return;
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?\s]+)/);
+    if (!match) { alert('Invalid YouTube URL'); return; }
+    editor.chain().focus().insertContent(
+      `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:1.5em 0;border-radius:8px"><iframe src="https://www.youtube-nocookie.com/embed/${match[1]}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe></div>`
+    ).run();
   };
 
   return (
@@ -219,6 +230,12 @@ function Toolbar({ editor }) {
         title="Insert Image"
       >
         <ImageIcon size={18} />
+      </ToolbarButton>
+      <ToolbarButton
+        onClick={handleYoutube}
+        title="Embed YouTube Video"
+      >
+        <Video size={18} />
       </ToolbarButton>
 
       <ToolbarDivider />

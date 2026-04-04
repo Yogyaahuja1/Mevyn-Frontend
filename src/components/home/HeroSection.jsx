@@ -1,53 +1,86 @@
 /**
- * HeroSection - Welcome banner for the Mevyn homepage.
+ * HeroSection - Full-viewport editorial hero for the Mevyn homepage.
  *
- * Displays a large heading, tagline paragraph, and a CTA button linking
- * to the blogs listing page. Uses a subtle gradient background that
- * adapts to both light and dark themes.
+ * Displays a large serif heading, tagline, and two CTA buttons over a
+ * subtle radial-gradient background. Includes a "Welcome" section label
+ * and an "Active Coverage" live badge. Adapts to light/dark via CSS
+ * variables and the hero-overlay class.
  *
  * Used by: HomePage.
  */
 import { Link } from 'react-router-dom';
-import Button from '@/components/common/Button';
 import { ROUTES } from '@/config/routes';
 
 export default function HeroSection() {
   return (
     <section
-      className={[
-        'relative overflow-hidden rounded-2xl px-6 py-16 text-center',
-        'bg-gradient-to-br from-secondary-50 via-white to-secondary-100',
-        'dark:from-dark-surface dark:via-dark-bg dark:to-secondary-900/20',
-        'sm:px-12 sm:py-24',
-      ].join(' ')}
+      style={{
+        position: 'relative',
+        minHeight: '88vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        paddingBottom: 86,
+      }}
     >
-      {/* Decorative background dots / subtle pattern */}
-      <div
-        aria-hidden="true"
-        className={[
-          'pointer-events-none absolute inset-0 opacity-[0.04]',
-          'dark:opacity-[0.06]',
-        ].join(' ')}
-        style={{
-          backgroundImage:
-            'radial-gradient(circle, currentColor 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
-        }}
-      />
+      {/* Gradient background (no image) */}
+      <div style={{ position: 'absolute', inset: 0 }}>
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'radial-gradient(ellipse at 30% 20%, var(--accent-dim) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(59,130,246,0.05) 0%, transparent 50%)',
+          }}
+        />
+        <div className="hero-overlay" />
+      </div>
 
-      <div className="relative mx-auto max-w-2xl">
-        <h1 className="text-3xl font-extrabold tracking-tight text-primary-900 dark:text-dark-text sm:text-4xl lg:text-5xl">
-          Welcome to Mevyn
-        </h1>
+      <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
+        <div className="hero-panel">
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              marginBottom: 18,
+              flexWrap: 'wrap',
+            }}
+          >
+            <span className="section-label">IIT Dharwad</span>
+            <span style={{ width: 1, height: 12, background: 'var(--border)' }} />
+            <span className="live-badge">
+              <span className="live-dot" />
+              Student Media Body
+            </span>
+          </div>
 
-        <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-primary-600 dark:text-dark-muted sm:text-lg">
-          Your media body&apos;s home for stories, series, and events.
-        </p>
+          <h1 className="hero-title">
+            Document,
+            <br />
+            Apprise, and <em style={{ color: 'var(--accent)', fontStyle: 'italic' }}>Reason</em>
+          </h1>
 
-        <div className="mt-8">
-          <Link to={ROUTES.BLOGS}>
-            <Button size="lg">Explore Posts</Button>
-          </Link>
+          <p className="hero-subtitle">
+            The official media body of IIT Dharwad &mdash; covering campus events,
+            amplifying student voices, and documenting the stories that shape our community.
+          </p>
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 16,
+              flexWrap: 'wrap',
+            }}
+          >
+            <Link to={ROUTES.BLOGS} className="btn-accent">
+              Explore Stories &rarr;
+            </Link>
+            <Link to={ROUTES.ABOUT} className="btn-ghost">
+              Meet the Team
+            </Link>
+          </div>
         </div>
       </div>
     </section>

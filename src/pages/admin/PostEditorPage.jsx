@@ -23,6 +23,7 @@ import logger from '@/utils/logger';
 const INITIAL_METADATA = {
   title: '',
   excerpt: '',
+  cover_image: '',
   tags: [],
   series: '',
   status: 'draft',
@@ -60,6 +61,7 @@ export default function PostEditorPage() {
         setMetadata({
           title: post.title || '',
           excerpt: post.excerpt || '',
+          cover_image: post.cover_image || '',
           tags: post.tags || [],
           series: post.series || '',
           status: post.status || 'draft',
@@ -102,6 +104,7 @@ export default function PostEditorPage() {
         title: metadata.title,
         body_html: bodyHtml,
         excerpt: metadata.excerpt || undefined,
+        cover_image: metadata.cover_image || undefined,
         tags: metadata.tags.length > 0 ? metadata.tags : undefined,
         series: metadata.series || undefined,
         status,

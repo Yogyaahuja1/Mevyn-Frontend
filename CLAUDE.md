@@ -92,6 +92,7 @@ public/
 | Homepage hero banner                | `src/components/home/HeroSection.jsx`              |
 | Homepage recent posts               | `src/components/home/RecentPosts.jsx`              |
 | Homepage upcoming events            | `src/components/home/UpcomingEvents.jsx`           |
+| Homepage ticker/marquee             | `src/components/home/Ticker.jsx`                   |
 | Topic suggestion section            | `src/components/home/TopicSuggestion.jsx`          |
 | Blog post card (in grids)           | `src/components/posts/PostCard.jsx`                |
 | Blog post content (full view)       | `src/components/posts/PostContent.jsx`             |
@@ -101,6 +102,7 @@ public/
 | Event card                          | `src/components/events/EventCard.jsx`              |
 | Event list layout                   | `src/components/events/EventList.jsx`              |
 | Series card                         | `src/components/series/SeriesCard.jsx`             |
+| Series detail page (3 layouts)      | `src/pages/public/SeriesDetailPage.jsx`            |
 | Team member card                    | `src/components/about/MemberCard.jsx`              |
 | Team members grid                   | `src/components/about/MembersPanel.jsx`            |
 | Admin sidebar nav                   | `src/components/admin/AdminSidebar.jsx`            |
@@ -133,16 +135,17 @@ public/
 - **Component naming:** PascalCase for components, camelCase for hooks/utils.
 - **File extensions:** `.jsx` for components and pages, `.js` for utilities, hooks, and services.
 - **Path aliases:** `@/` maps to `src/` (configured in `vite.config.js`).
-- **Styling:** Tailwind CSS v4 with class-based dark mode (`dark:` variants on every component).
-- **AMOLED dark mode:** `#000000` body, `#0a0a0a` surfaces, `#141414` cards -- never use standard dark grays.
-- **State management:** Context API for auth (`AuthContext`) and theme (`ThemeContext`); local state for everything else.
+- **Styling (public):** Editorial CSS classes in `index.css` (`.card`, `.section-label`, `.btn-accent`, `.pill`, `.site-nav`, etc.) with CSS variables (`--accent`, `--bg`, `--text`, `--serif`, `--sans`). Variables switch automatically between light/dark via `:root` and `.dark` scopes.
+- **Styling (admin):** Tailwind CSS v4 utilities with `dark:` variants. Admin pages are NOT affected by editorial CSS.
+- **AMOLED dark mode:** `#0a0a0a` body, `#111111` surfaces, `#161616` cards -- CSS var `--bg`, `--bg2`, `--bg3`.
+- **Fonts:** Syne (serif, headings), Space Grotesk (sans, body), Inter (fallback). Loaded via Google Fonts in `index.html`.
+- **State management:** Context API for auth (`AuthContext`), theme (`ThemeContext`), toasts (`ToastContext`); local state for everything else.
 - **API layer:** Axios instance (`services/api.js`) -> service functions -> custom hooks -> page components.
 - **Anonymous posts:** When `post.anonymous` is `true`, display "Mevyn Editorial Team" as author (constant in `config/constants.js`).
-- **Icons:** `lucide-react` for all icons (except LinkedIn which uses inline SVG in `MemberCard`).
-- **Touch targets:** Minimum 44x44px on all interactive elements (`min-h-[44px] min-w-[44px]`).
+- **Icons:** `lucide-react` for all icons. LinkedIn uses text link "LinkedIn -->" in `MemberCard`.
+- **Touch targets:** Minimum 44x44px on all interactive elements.
 - **Logging:** Use the logger utility (`utils/logger.js`) -- NEVER log tokens, passwords, or emails.
 - **Route paths:** Import from `config/routes.js` -- never hardcode path strings.
-- **Font:** Inter (loaded from Google Fonts in `index.html`).
 
 ---
 
@@ -151,7 +154,7 @@ public/
 | File                          | Purpose                                       |
 | ----------------------------- | --------------------------------------------- |
 | `src/data/team.json`          | Team members -- update to add/remove/reorder  |
-| `src/data/series-config.json` | Series definitions -- update to add/remove/reorder |
+| `src/data/series-config.json` | Series definitions (slug, title, description, layout, accent) |
 
 ---
 

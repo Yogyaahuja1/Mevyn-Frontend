@@ -1,10 +1,8 @@
 /**
- * PostMeta - Metadata bar showing author(s), published date, and reading time.
+ * PostMeta - Editorial metadata bar showing author, date, and reading time.
  *
- * Displays "Mevyn Editorial Team" when the post is anonymous.
- * Uses lucide-react icons for visual clarity.
- *
- * Used by: BlogPostPage (below the title, above PostContent).
+ * Displays "Mevyn Editorial Team" when the post is anonymous or has no authors.
+ * Uses editorial CSS variables for consistent styling.
  *
  * @param {object} props
  * @param {object} props.post
@@ -13,45 +11,37 @@
  * @param {string} props.post.published_at
  * @param {string} props.post.body_html
  */
-import { User, Calendar, Clock } from 'lucide-react';
 import { readingTime } from '@/utils/readingTime';
 import { formatDate } from '@/utils/formatDate';
 import { ANONYMOUS_AUTHOR } from '@/config/constants';
-import { cn } from '@/utils/cn';
 
 export default function PostMeta({ post }) {
-  const { authors, anonymous, published_at: publishedAt, body_html: bodyHtml } = post;
-
-  const authorLabel = anonymous
-    ? ANONYMOUS_AUTHOR
-    : authors?.map((a) => a.name).join(', ') || ANONYMOUS_AUTHOR;
+  const authorName =
+    post.anonymous || !post.authors?.length
+      ? ANONYMOUS_AUTHOR
+      : post.authors.map((a) => a.name).join(', ');
 
   return (
     <div
-      className={cn(
-        'flex flex-wrap items-center gap-x-5 gap-y-2 text-sm',
-        'text-primary-500 dark:text-dark-muted'
-      )}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        fontSize: '0.9rem',
+        color: 'var(--text-dim)',
+        flexWrap: 'wrap',
+      }}
     >
-      {/* Author */}
-      <span className="inline-flex items-center gap-1.5">
-        <User className="h-4 w-4 shrink-0" aria-hidden="true" />
-        <span>{authorLabel}</span>
+      <span>
+        By{' '}
+        <strong style={{ color: 'var(--text)', fontWeight: 500 }}>
+          {authorName}
+        </strong>
       </span>
-
-      {/* Published date */}
-      {publishedAt && (
-        <span className="inline-flex items-center gap-1.5">
-          <Calendar className="h-4 w-4 shrink-0" aria-hidden="true" />
-          <time dateTime={publishedAt}>{formatDate(publishedAt)}</time>
-        </span>
-      )}
-
-      {/* Reading time */}
-      <span className="inline-flex items-center gap-1.5">
-        <Clock className="h-4 w-4 shrink-0" aria-hidden="true" />
-        <span>{readingTime(bodyHtml)}</span>
-      </span>
+      <span>&middot;</span>
+      <span>{formatDate(post.published_at)}</span>
+      <span>&middot;</span>
+      <span>{readingTime(post.body_html)}</span>
     </div>
   );
 }

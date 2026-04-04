@@ -1,78 +1,227 @@
 /**
- * Site footer — contact info, address, and copyright.
+ * Editorial site footer — 4-column layout with brand, series, navigation, and contact.
  *
  * Layout:
- *   Mobile: stacked sections
- *   Desktop: 3-column grid
+ *   Desktop: Brand (2fr) | Series (1fr) | Navigate (1fr) | Contact (1fr)
+ *   Tablet (<=900px): 2-column grid
+ *   Mobile (<=640px): single-column stack
  *
- * Rendered at the bottom of every public page via PublicLayout.
+ * Uses editorial CSS classes and variables from index.css.
+ * Series data loaded from series-config.json.
  */
 import { Link } from 'react-router-dom';
-import { Mail, MapPin, Phone } from 'lucide-react';
 import { ROUTES } from '@/config/routes';
+import seriesData from '@/data/series-config.json';
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-primary-200 dark:border-dark-border bg-white dark:bg-dark-surface">
-      <div className="container mx-auto px-4 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Brand & description */}
+    <footer style={{ background: 'var(--bg2)', borderTop: '1px solid var(--border)' }}>
+      {/* Accent top-line */}
+      <div
+        style={{
+          height: 1,
+          background: 'linear-gradient(90deg, transparent, var(--accent), transparent)',
+          opacity: 0.5,
+        }}
+      />
+
+      <div className="container-editorial" style={{ paddingTop: 64, paddingBottom: 40 }}>
+        {/* Responsive inline styles for the footer grid */}
+        <style>{`
+          .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+          }
+          @media (max-width: 900px) {
+            .footer-grid {
+              grid-template-columns: 1fr 1fr;
+              gap: 36px;
+            }
+          }
+          @media (max-width: 640px) {
+            .footer-grid {
+              grid-template-columns: 1fr;
+              gap: 32px;
+            }
+          }
+        `}</style>
+
+        <div className="footer-grid">
+          {/* Brand column */}
           <div>
-            <Link to={ROUTES.HOME} className="inline-block mb-3">
-              <img src="/mevyn-logo.svg" alt="Mevyn" className="h-8" />
+            <Link to={ROUTES.HOME} style={{ textDecoration: 'none' }}>
+              <span
+                style={{
+                  fontFamily: 'var(--serif)',
+                  fontSize: '1.5rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.05em',
+                  color: 'var(--accent)',
+                }}
+              >
+                MEVYN
+              </span>
             </Link>
-            <p className="text-sm text-primary-500 dark:text-dark-muted leading-relaxed">
-              Your media body&apos;s home for stories, series, and events.
+            <p
+              style={{
+                fontSize: '0.875rem',
+                color: 'var(--text-muted)',
+                lineHeight: 1.7,
+                marginTop: 16,
+                maxWidth: '32ch',
+              }}
+            >
+              The official media body of IIT Dharwad. Documenting campus life,
+              amplifying student voices, and covering the stories that matter.
             </p>
           </div>
 
-          {/* Quick links */}
+          {/* Series column */}
           <div>
-            <h3 className="font-semibold text-primary-800 dark:text-dark-text mb-3">Quick Links</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link to={ROUTES.BLOGS} className="text-primary-500 hover:text-secondary-600 dark:text-dark-muted dark:hover:text-secondary-400 transition-colors">
-                  Blogs
-                </Link>
-              </li>
-              <li>
-                <Link to={ROUTES.SERIES} className="text-primary-500 hover:text-secondary-600 dark:text-dark-muted dark:hover:text-secondary-400 transition-colors">
-                  Series
-                </Link>
-              </li>
-              <li>
-                <Link to={ROUTES.ABOUT} className="text-primary-500 hover:text-secondary-600 dark:text-dark-muted dark:hover:text-secondary-400 transition-colors">
-                  About Us
-                </Link>
-              </li>
+            <div className="section-label" style={{ marginBottom: 16 }}>
+              Series
+            </div>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {seriesData
+                .sort((a, b) => a.order - b.order)
+                .map((series) => (
+                  <li key={series.slug}>
+                    <Link
+                      to={`/series/${series.slug}`}
+                      style={{
+                        fontSize: '0.875rem',
+                        color: 'var(--text-muted)',
+                        textDecoration: 'none',
+                        transition: 'color 0.2s',
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; }}
+                    >
+                      {series.title}
+                    </Link>
+                  </li>
+                ))}
             </ul>
           </div>
 
-          {/* Contact info — replace with actual details */}
+          {/* Navigate column */}
           <div>
-            <h3 className="font-semibold text-primary-800 dark:text-dark-text mb-3">Contact</h3>
-            <ul className="space-y-2 text-sm text-primary-500 dark:text-dark-muted">
-              <li className="flex items-center gap-2">
-                <Mail className="h-4 w-4 flex-shrink-0" />
-                <span>contact@mevyn.com</span>
+            <div className="section-label" style={{ marginBottom: 16 }}>
+              Navigate
+            </div>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                { label: 'Home', to: ROUTES.HOME },
+                { label: 'Stories', to: ROUTES.BLOGS },
+                { label: 'About', to: ROUTES.ABOUT },
+                { label: 'Series', to: ROUTES.SERIES },
+              ].map((item) => (
+                <li key={item.label}>
+                  <Link
+                    to={item.to}
+                    style={{
+                      fontSize: '0.875rem',
+                      color: 'var(--text-muted)',
+                      textDecoration: 'none',
+                      transition: 'color 0.2s',
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; }}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact column */}
+          <div>
+            <div className="section-label" style={{ marginBottom: 16 }}>
+              Contact
+            </div>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <li>
+                <a
+                  href="mailto:mevyn@iitdh.ac.in"
+                  style={{
+                    fontSize: '0.875rem',
+                    color: 'var(--text-muted)',
+                    textDecoration: 'none',
+                    transition: 'color 0.2s',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; }}
+                >
+                  mevyn@iitdh.ac.in
+                </a>
               </li>
-              <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 flex-shrink-0" />
-                <span>+91 00000 00000</span>
+              <li
+                style={{
+                  fontSize: '0.875rem',
+                  color: 'var(--text-muted)',
+                }}
+              >
+                IIT Dharwad, Karnataka
               </li>
-              <li className="flex items-start gap-2">
-                <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5" />
-                <span>Institution Address, City, State — 000000</span>
+              <li>
+                <a
+                  href="https://instagram.com/mevyn_iitdh"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontSize: '0.875rem',
+                    color: 'var(--text-muted)',
+                    textDecoration: 'none',
+                    transition: 'color 0.2s',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; }}
+                >
+                  @mevyn_iitdh
+                </a>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="mt-8 pt-6 border-t border-primary-200 dark:border-dark-border text-center text-sm text-primary-400 dark:text-dark-muted">
-          &copy; {year} Mevyn. All rights reserved.
+        {/* Bottom bar */}
+        <div
+          style={{
+            marginTop: 48,
+            paddingTop: 24,
+            borderTop: '1px solid var(--border)',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: 12,
+          }}
+        >
+          <span
+            style={{
+              fontSize: '0.75rem',
+              color: 'var(--text-dim)',
+              fontFamily: 'var(--sans)',
+            }}
+          >
+            &copy; {year} MEVYN &mdash; IIT Dharwad. All rights reserved.
+          </span>
+          <span
+            style={{
+              fontSize: '9px',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: 'var(--text-dim)',
+              fontFamily: 'var(--sans)',
+              fontWeight: 500,
+            }}
+          >
+            DOCUMENT APPRISE AND REASON
+          </span>
         </div>
       </div>
     </footer>

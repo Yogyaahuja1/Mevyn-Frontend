@@ -1,139 +1,233 @@
 /**
- * Public site navigation bar.
+ * Public site navigation bar — editorial glassmorphic pill design.
  *
- * Desktop: Logo | Blogs | Series (dropdown) | About Us | [ThemeToggle] [Login link]
- * Mobile: Logo | [ThemeToggle] [Hamburger] → slide-out drawer with all links
+ * Desktop: Brand lockup | glassmorphic pill (Home, Stories, Series dropdown, About) | ThemeToggle | CTA
+ * Mobile: Brand lockup | ThemeToggle | Hamburger → full-screen overlay menu
  *
- * The Login link is subtle (not a prominent CTA) — it's for admin/editor members only.
- * If the user is already authenticated, shows "Dashboard" link instead of "Login".
+ * The nav uses position:fixed via the .site-nav class (defined in index.css).
+ * Scroll detection adds .is-scrolled for glassmorphic backdrop on scroll.
  *
- * @see src/components/series/SeriesDropdown.jsx — dropdown content
+ * The mobile menu is rendered as a sibling to the nav content so it is never
+ * trapped inside a backdrop-filter containing block.
  */
-import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { Menu, X, LogIn, LayoutDashboard } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/hooks/useAuth';
 import ThemeToggle from './ThemeToggle';
 import SeriesDropdown from '@/components/series/SeriesDropdown';
-import { cn } from '@/utils/cn';
 
-/** Styling for active nav links */
-const linkClass = ({ isActive }) =>
-  cn(
-    'text-sm font-medium transition-colors px-3 py-2 rounded-lg',
-    isActive
-      ? 'text-secondary-600 dark:text-secondary-400'
-      : 'text-primary-600 hover:text-primary-800 dark:text-dark-muted dark:hover:text-dark-text'
-  );
+/** Returns editorial nav-link class with active state */
+const navLinkClass = ({ isActive }) =>
+  `nav-link${isActive ? ' active' : ''}`;
 
 export default function Navbar() {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { isAuthenticated } = useAuth();
+  const location = useLocation();
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location]);
+
+  // Scroll detection — add .is-scrolled after 40px
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+    handleScroll(); // check initial position
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
+  const closeMobile = useCallback(() => setMenuOpen(false), []);
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-primary-200 dark:border-dark-border bg-white/80 dark:bg-dark-bg/80 backdrop-blur-md">
-        <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
-          {/* Logo */}
-          <Link to={ROUTES.HOME} className="flex-shrink-0" aria-label="Mevyn home">
-            <img src="/mevyn-logo.svg" alt="Mevyn" className="h-8" />
+      <nav className={`site-nav${scrolled ? ' is-scrolled' : ''}`}>
+        <div className="nav-shell">
+          {/* Brand lockup */}
+          <Link to={ROUTES.HOME} className="brand-lockup" aria-label="Mevyn home">
+            <span
+              style={{
+                fontFamily: 'var(--serif)',
+                fontSize: '1.5rem',
+                fontWeight: 700,
+                letterSpacing: '0.05em',
+                color: 'var(--accent)',
+              }}
+            >
+              MEVYN
+            </span>
+            <span
+              className="brand-subtitle"
+              style={{
+                fontSize: '9px',
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                color: 'var(--text-dim)',
+                marginTop: 1,
+              }}
+            >
+              IIT Dharwad
+            </span>
           </Link>
 
-          {/* Desktop nav links */}
-          <div className="hidden md:flex items-center gap-1">
-            <NavLink to={ROUTES.BLOGS} className={linkClass}>Blogs</NavLink>
-            <SeriesDropdown />
-            <NavLink to={ROUTES.ABOUT} className={linkClass}>About Us</NavLink>
-          </div>
-
-          {/* Desktop right section */}
-          <div className="hidden md:flex items-center gap-2">
+          {/* Desktop glassmorphic pill nav */}
+          <div className="desktop-nav">
+            <div className="nav-group">
+              <NavLink to={ROUTES.HOME} className={navLinkClass} end>
+                Home
+              </NavLink>
+              <NavLink to={ROUTES.BLOGS} className={navLinkClass}>
+                Stories
+              </NavLink>
+              <SeriesDropdown />
+              <NavLink to={ROUTES.ABOUT} className={navLinkClass}>
+                About
+              </NavLink>
+            </div>
             <ThemeToggle />
             {isAuthenticated ? (
-              <Link
-                to={ROUTES.ADMIN}
-                className="inline-flex items-center gap-1.5 text-sm text-primary-500 hover:text-primary-700 dark:text-dark-muted dark:hover:text-dark-text px-3 py-2 rounded-lg transition-colors"
-              >
-                <LayoutDashboard className="h-4 w-4" />
+              <Link to={ROUTES.ADMIN} className="nav-cta">
                 Dashboard
               </Link>
             ) : (
-              <Link
-                to={ROUTES.LOGIN}
-                className="inline-flex items-center gap-1.5 text-sm text-primary-500 hover:text-primary-700 dark:text-dark-muted dark:hover:text-dark-text px-3 py-2 rounded-lg transition-colors"
-              >
-                <LogIn className="h-4 w-4" />
+              <Link to={ROUTES.LOGIN} className="nav-cta">
                 Login
               </Link>
             )}
           </div>
 
-          {/* Mobile right section */}
-          <div className="flex md:hidden items-center gap-1">
+          {/* Mobile controls — visible only on mobile (hamburger hidden via CSS on desktop) */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <ThemeToggle />
             <button
-              onClick={() => setMobileOpen(true)}
-              className="p-2 rounded-lg text-primary-600 dark:text-dark-muted min-h-[44px] min-w-[44px] flex items-center justify-center"
-              aria-label="Open menu"
+              onClick={() => setMenuOpen((o) => !o)}
+              className="hamburger"
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
             >
-              <Menu className="h-6 w-6" />
+              <span
+                style={{
+                  display: 'block',
+                  width: 22,
+                  height: 2,
+                  background: 'var(--text)',
+                  borderRadius: 2,
+                  transition: 'all 0.3s ease',
+                  transform: menuOpen
+                    ? 'rotate(45deg) translate(5px, 5px)'
+                    : 'none',
+                }}
+              />
+              <span
+                style={{
+                  display: 'block',
+                  width: 22,
+                  height: 2,
+                  background: 'var(--text)',
+                  borderRadius: 2,
+                  transition: 'all 0.3s ease',
+                  opacity: menuOpen ? 0 : 1,
+                }}
+              />
+              <span
+                style={{
+                  display: 'block',
+                  width: 22,
+                  height: 2,
+                  background: 'var(--text)',
+                  borderRadius: 2,
+                  transition: 'all 0.3s ease',
+                  transform: menuOpen
+                    ? 'rotate(-45deg) translate(5px, -5px)'
+                    : 'none',
+                }}
+              />
             </button>
           </div>
-        </nav>
-      </header>
+        </div>
+      </nav>
 
-      {/*
-       * Mobile slide-out drawer — rendered OUTSIDE <header> so that
-       * backdrop-blur-md doesn't create a containing block that traps
-       * the fixed-position drawer inside the 64px header height.
-       */}
-      {mobileOpen && (
-        <>
-          {/* Backdrop */}
+      {/* Mobile full-screen overlay menu — rendered outside nav to avoid backdrop-filter issues */}
+      {menuOpen && (
+        <div className="mobile-nav-menu">
+          {/* Header with close */}
           <div
-            className="fixed inset-0 z-50 bg-black/50 md:hidden"
-            onClick={() => setMobileOpen(false)}
-          />
-          {/* Drawer */}
-          <div className="fixed inset-y-0 right-0 z-50 w-72 bg-white dark:bg-dark-surface shadow-xl md:hidden flex flex-col">
-            <div className="flex items-center justify-between px-4 h-16 border-b border-primary-200 dark:border-dark-border">
-              <span className="font-semibold text-primary-800 dark:text-dark-text">Menu</span>
-              <button
-                onClick={() => setMobileOpen(false)}
-                className="p-2 rounded-lg text-primary-600 dark:text-dark-muted min-h-[44px] min-w-[44px] flex items-center justify-center"
-                aria-label="Close menu"
-              >
-                <X className="h-6 w-6" />
-              </button>
-            </div>
-            <nav className="flex flex-col p-4 gap-1">
-              <NavLink to={ROUTES.BLOGS} className={linkClass} onClick={() => setMobileOpen(false)}>
-                Blogs
-              </NavLink>
-              <NavLink to={ROUTES.SERIES} className={linkClass} onClick={() => setMobileOpen(false)}>
-                Series
-              </NavLink>
-              <NavLink to={ROUTES.ABOUT} className={linkClass} onClick={() => setMobileOpen(false)}>
-                About Us
-              </NavLink>
-              <hr className="my-3 border-primary-200 dark:border-dark-border" />
-              {isAuthenticated ? (
-                <NavLink to={ROUTES.ADMIN} className={linkClass} onClick={() => setMobileOpen(false)}>
-                  <span className="inline-flex items-center gap-2">
-                    <LayoutDashboard className="h-4 w-4" /> Dashboard
-                  </span>
-                </NavLink>
-              ) : (
-                <NavLink to={ROUTES.LOGIN} className={linkClass} onClick={() => setMobileOpen(false)}>
-                  <span className="inline-flex items-center gap-2">
-                    <LogIn className="h-4 w-4" /> Login
-                  </span>
-                </NavLink>
-              )}
-            </nav>
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: 32,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: 'var(--serif)',
+                fontSize: '1.25rem',
+                fontWeight: 700,
+                letterSpacing: '0.05em',
+                color: 'var(--accent)',
+              }}
+            >
+              MEVYN
+            </span>
+            <button
+              onClick={closeMobile}
+              aria-label="Close menu"
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 8,
+                minWidth: 44,
+                minHeight: 44,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--text)',
+                fontSize: 24,
+              }}
+            >
+              &times;
+            </button>
           </div>
-        </>
+
+          <div className="mobile-nav-label">Navigate</div>
+          <NavLink to={ROUTES.HOME} className="mobile-nav-link" onClick={closeMobile} end>
+            Home
+          </NavLink>
+          <NavLink to={ROUTES.BLOGS} className="mobile-nav-link" onClick={closeMobile}>
+            Stories
+          </NavLink>
+          <NavLink to={ROUTES.SERIES} className="mobile-nav-link" onClick={closeMobile}>
+            Series
+          </NavLink>
+          <NavLink to={ROUTES.ABOUT} className="mobile-nav-link" onClick={closeMobile}>
+            About
+          </NavLink>
+
+          <hr style={{ border: 'none', borderTop: '1px solid var(--border)', margin: '12px 0' }} />
+
+          <NavLink
+            to={isAuthenticated ? ROUTES.ADMIN : ROUTES.LOGIN}
+            className="mobile-nav-link mobile-nav-link-cta"
+            onClick={closeMobile}
+          >
+            {isAuthenticated ? 'Dashboard' : 'Login'}
+          </NavLink>
+        </div>
       )}
     </>
   );

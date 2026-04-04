@@ -86,14 +86,18 @@ export default function EventForm({ event = null, onSave, loading = false }) {
       description: form.description || undefined,
       date: form.date ? new Date(form.date).toISOString() : undefined,
       end_date: form.end_date ? new Date(form.end_date).toISOString() : undefined,
-      location: {
-        name: form.location_name || undefined,
-        address: form.location_address || undefined,
-      },
       is_virtual: form.is_virtual,
       registration_url: form.registration_url || undefined,
       status: form.status,
     };
+
+    // Only include location when at least one field has a value
+    if (form.location_name || form.location_address) {
+      payload.location = {
+        name: form.location_name || undefined,
+        address: form.location_address || undefined,
+      };
+    }
 
     onSave(payload);
   };

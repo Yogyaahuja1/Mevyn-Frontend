@@ -1,20 +1,50 @@
 [
   {
-    "slug": "explainer-series",
-    "title": "Explainer Series",
-    "description": "In-depth explanations of complex topics, broken down for everyone.",
-    "order": 1
+    "slug": "campus-gamut",
+    "title": "Campus Gamut",
+    "description": "Comprehensive coverage of campus life, events, and everything in between at IIT Dharwad.",
+    "order": 1,
+    "layout": "grid",
+    "accent": "#2563eb"
   },
   {
-    "slug": "campus-chronicles",
-    "title": "Campus Chronicles",
-    "description": "Stories, events, and experiences from campus life.",
-    "order": 2
+    "slug": "interno",
+    "title": "Interno",
+    "description": "In-depth editorial pieces exploring ideas, perspectives, and reflections from within the campus.",
+    "order": 2,
+    "layout": "editorial",
+    "accent": "#5dcaa5"
   },
   {
-    "slug": "opinion-pieces",
-    "title": "Opinion Pieces",
-    "description": "Perspectives and commentary from our editorial team.",
-    "order": 3
+    "slug": "scholar-snippets",
+    "title": "Scholar Snippets",
+    "description": "Bite-sized academic insights, research highlights, and scholarly takes from the IIT Dharwad community.",
+    "order": 3,
+    "layout": "editorial",
+    "accent": "#8b5cf6"
+  },
+  {
+    "slug": "eureka",
+    "title": "Eureka",
+    "description": "Spotlight on innovation, discovery, and breakthrough moments across science and technology.",
+    "order": 4,
+    "layout": "numbered",
+    "accent": "#f59e0b"
+  },
+  {
+    "slug": "oopss",
+    "title": "OOPSS",
+    "description": "Opinions, Observations, and Perspectives from Students and Staff — unfiltered campus voices.",
+    "order": 5,
+    "layout": "grid",
+    "accent": "#ec4899"
+  },
+  {
+    "slug": "editorials",
+    "title": "Editorials",
+    "description": "Considered editorial commentary on matters that shape the IIT Dharwad experience.",
+    "order": 6,
+    "layout": "numbered",
+    "accent": "#d85a30"
   }
 ]
