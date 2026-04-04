@@ -1,0 +1,10 @@
+{
+  "carousel": {
+    "enabled": true,
+    "interval": 5000,
+    "photos": [
+      "/hero/porsche.jpg",
+      "/hero/wallpaper.png"
+    ]
+  }
+}
