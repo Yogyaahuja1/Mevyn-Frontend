@@ -93,6 +93,9 @@ export default function Navbar() {
                 Stories
               </NavLink>
               <SeriesDropdown />
+              <NavLink to={ROUTES.TIMELINE} className={navLinkClass}>
+                Timeline
+              </NavLink>
               <NavLink to={ROUTES.ABOUT} className={navLinkClass}>
                 About
               </NavLink>
@@ -213,6 +216,9 @@ export default function Navbar() {
           </NavLink>
           <NavLink to={ROUTES.SERIES} className="mobile-nav-link" onClick={closeMobile}>
             Series
+          </NavLink>
+          <NavLink to={ROUTES.TIMELINE} className="mobile-nav-link" onClick={closeMobile}>
+            Timeline
           </NavLink>
           <NavLink to={ROUTES.ABOUT} className="mobile-nav-link" onClick={closeMobile}>
             About

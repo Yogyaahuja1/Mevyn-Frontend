@@ -17,6 +17,7 @@ export const ROUTES = {
   BLOG_POST: '/blogs/:slug',
   SERIES: '/series',
   SERIES_DETAIL: '/series/:slug',
+  TIMELINE: '/timeline',
   ABOUT: '/about',
   LOGIN: '/login',
 

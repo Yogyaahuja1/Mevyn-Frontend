@@ -22,6 +22,7 @@ import Ticker from '@/components/home/Ticker';
 import RecentPosts from '@/components/home/RecentPosts';
 import UpcomingEvents from '@/components/home/UpcomingEvents';
 import TopicSuggestion from '@/components/home/TopicSuggestion';
+import BorderGlow from '@/components/common/BorderGlow';
 
 export default function HomePage() {
   useDocumentTitle('Home');
@@ -67,17 +68,27 @@ export default function HomePage() {
             {[...seriesData]
               .sort((a, b) => a.order - b.order)
               .map((s) => (
-                <Link
+                <BorderGlow
                   key={s.slug}
-                  to={`/series/${s.slug}`}
-                  className="dashboard-card"
+                  glowColor="201 168 76"
+                  borderRadius={8}
+                  glowIntensity={0.6}
+                  glowRadius={22}
+                  colors={['rgba(226, 196, 120, 0.58)', 'rgba(160, 120, 48, 0.18)', 'rgba(160, 120, 48, 0.03)']}
+                  style={{ height: '100%' }}
                 >
-                  <div className="series-title">{s.title}</div>
-                  <div className="series-desc">{s.description}</div>
-                  <div className="dashboard-cta" style={{ marginTop: 12 }}>
-                    Explore &rarr;
-                  </div>
-                </Link>
+                  <Link
+                    to={`/series/${s.slug}`}
+                    className="dashboard-card"
+                    style={{ height: '100%' }}
+                  >
+                    <div className="series-title">{s.title}</div>
+                    <div className="series-desc">{s.description}</div>
+                    <div className="dashboard-cta" style={{ marginTop: 12 }}>
+                      Explore &rarr;
+                    </div>
+                  </Link>
+                </BorderGlow>
               ))}
           </div>
         </div>

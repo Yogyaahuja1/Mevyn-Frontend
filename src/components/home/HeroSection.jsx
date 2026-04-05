@@ -19,6 +19,7 @@ import { useTheme } from '@/hooks/useTheme';
 import heroConfig from '@/data/hero-config.json';
 
 export default function HeroSection() {
+  const { theme } = useTheme();
   const { carousel } = heroConfig;
 
   return (
@@ -36,44 +37,64 @@ export default function HeroSection() {
       {/* Background - carousel or static path art */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
         {carousel.enabled && carousel.photos?.length > 0 ? (
-          <PhotoCarousel photos={carousel.photos} interval={carousel.interval || 5000} />
+          <PhotoCarousel photos={carousel.photos} interval={carousel.interval || 5000} theme={theme} />
         ) : (
-          <RibbonArt />
+          <RibbonArt theme={theme} />
         )}
         <div className="hero-overlay" />
       </div>
 
       {/* Content panel */}
       <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
-        <div className="hero-panel">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18, flexWrap: 'wrap' }}>
-            <span className="section-label">IIT Dharwad</span>
-            <span style={{ width: 1, height: 12, background: 'var(--border)' }} />
-            <span className="live-badge">
-              <span className="live-dot" />
-              Student Media Body
-            </span>
+        <div className="hero-grid-lines" />
+        <div className="hero-ghost-m">M</div>
+        <div className="hero-layout">
+          <div className="hero-panel">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18, flexWrap: 'wrap' }}>
+              <span className="section-label">IIT Dharwad</span>
+              <span style={{ width: 1, height: 12, background: 'var(--border)' }} />
+              <span className="live-badge">
+                <span className="live-dot" />
+                Student Media Body
+              </span>
+            </div>
+
+            <h1 className="hero-title">
+              <span className="hero-line-light">Document,</span>
+              <br />
+              <span className="hero-line-light">Apprise,</span> <span className="hero-line-and">and</span>
+              <span className="hero-reason">Reason</span>
+            </h1>
+
+            <p className="hero-subtitle">
+              The official media body of IIT Dharwad &mdash; covering campus events,
+              amplifying student voices, and documenting the stories that shape our community.
+            </p>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+              <Link to={ROUTES.BLOGS} className="btn-accent">
+                Explore Stories &rarr;
+              </Link>
+              <Link to={ROUTES.ABOUT} className="btn-ghost">
+                Meet the Team
+              </Link>
+            </div>
           </div>
 
-          <h1 className="hero-title">
-            Document,
-            <br />
-            Apprise, and <em style={{ color: 'var(--accent)', fontStyle: 'italic' }}>Reason</em>
-          </h1>
-
-          <p className="hero-subtitle">
-            The official media body of IIT Dharwad &mdash; covering campus events,
-            amplifying student voices, and documenting the stories that shape our community.
-          </p>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-            <Link to={ROUTES.BLOGS} className="btn-accent">
-              Explore Stories &rarr;
-            </Link>
-            <Link to={ROUTES.ABOUT} className="btn-ghost">
-              Meet the Team
-            </Link>
-          </div>
+          <aside className="hero-stats" aria-label="Site highlights">
+            <div className="hero-stat-item">
+              <div className="hero-stat-value">54+</div>
+              <div className="hero-stat-label">Events Covered</div>
+            </div>
+            <div className="hero-stat-item">
+              <div className="hero-stat-value">180+</div>
+              <div className="hero-stat-label">Stories Published</div>
+            </div>
+            <div className="hero-stat-item">
+              <div className="hero-stat-value">24</div>
+              <div className="hero-stat-label">Team Members</div>
+            </div>
+          </aside>
         </div>
       </div>
     </section>
@@ -84,7 +105,7 @@ export default function HeroSection() {
  * Photo carousel - crossfades between images on a timer.
  * Photos loaded from public/hero/ directory.
  */
-function PhotoCarousel({ photos, interval }) {
+function PhotoCarousel({ photos, interval, theme }) {
   const [current, setCurrent] = useState(0);
   const timerRef = useRef(null);
 
@@ -109,6 +130,7 @@ function PhotoCarousel({ photos, interval }) {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            filter: theme === 'dark' ? 'none' : 'saturate(1.12) contrast(1.05)',
             opacity: i === current ? 1.0 : 0,
             transition: 'opacity 1.2s ease-in-out',
           }}
@@ -154,8 +176,7 @@ function PhotoCarousel({ photos, interval }) {
 /**
  * RibbonArt - static pre-rendered hero art matched to the current theme.
  */
-function RibbonArt() {
-  const { theme } = useTheme();
+function RibbonArt({ theme }) {
   const src = theme === 'dark' ? '/hero/paths-dark.svg' : '/hero/paths-light.svg';
 
   return (
@@ -169,6 +190,7 @@ function RibbonArt() {
         width: '100%',
         height: '100%',
         objectFit: 'cover',
+        filter: theme === 'dark' ? 'none' : 'saturate(1.16) contrast(1.08)',
         pointerEvents: 'none',
         userSelect: 'none',
       }}

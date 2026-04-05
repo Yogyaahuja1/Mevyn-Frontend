@@ -22,24 +22,34 @@
  */
 import { formatDateTime } from '@/utils/formatDate';
 import { MapPin } from 'lucide-react';
+import BorderGlow from '@/components/common/BorderGlow';
 
 export default function EventCard({ event }) {
   return (
-    <div className="card" style={{ cursor: 'default' }}>
-      <div className="card-body">
-        <div className="card-meta">
-          {event.is_virtual && <span className="pill">Virtual</span>}
-          {event.status && <span className="pill">{event.status}</span>}
-          <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>{formatDateTime(event.date)}</span>
-        </div>
-        <h3 className="card-title" style={{ fontSize: '1.05rem' }}>{event.title}</h3>
-        {event.location?.name && (
-          <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6 }}>
-            <MapPin style={{ width: 14, height: 14 }} />
-            {event.location.name}
+    <BorderGlow
+      glowColor="201 168 76"
+      borderRadius={8}
+      glowIntensity={0.66}
+      glowRadius={26}
+      colors={['rgba(226, 196, 120, 0.65)', 'rgba(190, 61, 52, 0.2)', 'rgba(160, 120, 48, 0.04)']}
+      style={{ height: '100%' }}
+    >
+      <div className="card" style={{ cursor: 'default' }}>
+        <div className="card-body">
+          <div className="card-meta">
+            {event.is_virtual && <span className="pill">Virtual</span>}
+            {event.status && <span className="pill">{event.status}</span>}
+            <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>{formatDateTime(event.date)}</span>
           </div>
-        )}
+          <h3 className="card-title" style={{ fontSize: '1.05rem' }}>{event.title}</h3>
+          {event.location?.name && (
+            <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <MapPin style={{ width: 14, height: 14 }} />
+              {event.location.name}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </BorderGlow>
   );
 }

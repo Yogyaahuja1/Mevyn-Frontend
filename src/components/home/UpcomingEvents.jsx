@@ -20,7 +20,7 @@ export default function UpcomingEvents() {
 
   return (
     <section
-      className="section"
+      className="section home-contrast-section"
       style={{
         background: 'var(--bg2)',
         borderTop: '1px solid var(--border)',

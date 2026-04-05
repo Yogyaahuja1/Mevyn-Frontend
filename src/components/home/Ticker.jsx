@@ -26,13 +26,21 @@ export default function Ticker() {
 
   return (
     <div className="ticker-wrap">
-      <div className="ticker-track">
-        {tripled.map((item, i) => (
-          <span key={i} className="ticker-item">
-            <span className="ticker-dot" />
-            {item}
-          </span>
-        ))}
+      <div style={{ display: 'flex', alignItems: 'center', minWidth: 0, overflow: 'hidden' }}>
+        <span className="ticker-indicator-label" style={{ padding: '0 12px 0 18px', flexShrink: 0 }}>Latest</span>
+        <span style={{ width: 1, height: 16, background: 'var(--border-accent)', flexShrink: 0 }} />
+        <div className="ticker-track">
+          {tripled.map((item, i) => (
+            <span key={i} className="ticker-item">
+              <span className="ticker-dot" />
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="ticker-indicator">
+        <span className="ticker-indicator-label">Slide</span>
+        <span>{items.length.toString().padStart(2, '0')}</span>
       </div>
     </div>
   );

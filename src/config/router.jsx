@@ -41,6 +41,7 @@ import BlogListingPage from '@/pages/public/BlogListingPage';
 import BlogPostPage from '@/pages/public/BlogPostPage';
 import SeriesListingPage from '@/pages/public/SeriesListingPage';
 import SeriesDetailPage from '@/pages/public/SeriesDetailPage';
+import TimelinePage from '@/pages/public/TimelinePage';
 import AboutPage from '@/pages/public/AboutPage';
 import LoginPage from '@/pages/public/LoginPage';
 
@@ -71,6 +72,7 @@ export const router = createBrowserRouter([
       { path: 'blogs/:slug', element: <BlogPostPage /> },
       { path: 'series', element: <SeriesListingPage /> },
       { path: 'series/:slug', element: <SeriesDetailPage /> },
+      { path: 'timeline', element: <TimelinePage /> },
       { path: 'about', element: <AboutPage /> },
       { path: 'login', element: <LoginPage /> },
     ],
